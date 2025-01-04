@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout } from '../../components/layout.tsx';
+import { Layout } from '../../components/Layout.tsx';
 import Tabs from '../../components/Tabs/Tabs.tsx';
 import { useAppDispatch, useAppSelector } from '../../store/Hooks';
 import cn from 'classnames';

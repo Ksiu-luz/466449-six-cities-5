@@ -1,8 +1,11 @@
 import React from 'react';
-import { Layout } from '../../components/layout';
-import { PlaceGroup } from '../../components/Place/PlaceGroup';
+import { Layout } from '../../components/Layout';
+import { useAppSelector } from '../../store/Hooks';
+import { FavoritesList } from './FavoritesList';
 
 export function FavoritesScreen(): React.JSX.Element {
+  const favorites = useAppSelector((state) => state.offers.favorites);
+
   return (
     <div className="page">
       <Layout showFooter>
@@ -10,19 +13,7 @@ export function FavoritesScreen(): React.JSX.Element {
           <div className="page__favorites-container container">
             <section className="favorites">
               <h1 className="favorites__title">Saved listing</h1>
-              <ul className="favorites__list">
-                {Map.groupBy(offers, (o) => o.city.name)
-                  .entries()
-                  .map(([cityName, offersInCity]) => (
-                    <PlaceGroup
-                      key={cityName}
-                      cityName={cityName}
-                      offers={offersInCity.filter(o => o.isFavorite)}
-                      cardType='favorites'
-                    />
-                  )).toArray()
-                };
-              </ul>
+              <FavoritesList offers={favorites} />
             </section>
           </div>
         </main>

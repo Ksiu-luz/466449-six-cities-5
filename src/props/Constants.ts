@@ -15,7 +15,7 @@ export const currentCustomIcon = leaflet.icon({
 export const DEFAULT_MAP_ZOOM = 12;
 
 export const AppRoutes = {
-  MainScreen: '/',
+  Main: '/',
   Login: '/login',
   Offer: '/offer/:offerId',
   Favorites: '/favorites',

@@ -1,4 +1,4 @@
-import { PlaceList } from '../../components/Place/PlaceList';
+import { PlaceList } from '../../components/PlaceCard/PlaceList';
 import { useState } from 'react';
 import { Nullable } from 'vitest';
 import { Map } from '../../components/Map/Map';

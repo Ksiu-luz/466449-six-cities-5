@@ -1,4 +1,4 @@
-import { Layout } from '../../components/layout';
+import { Layout } from '../../components/Layout';
 import { ReviewForm } from '../../components/Review/ReviewForm';
 import ReviewList from '../../components/Review/ReviewList';
 import { AuthorizationStatus, DEFAULT_MAP_ZOOM, AppRoutes } from '../../props/Constants';
@@ -6,7 +6,7 @@ import { Map } from '../../components/Map/Map';
 import { OfferBookmarkButton } from '../../components/BookmarkButton';
 import { OfferUserAvatar } from '../../components/UserAvatar';
 import { OfferGoods } from './OfferGoods';
-import { PlaceList } from '../../components/Place/PlaceList';
+import { PlaceList } from '../../components/PlaceCard/PlaceList';
 import { useAppSelector, useAppDispatch } from '../../store/Hooks';
 import { useOfferScreen } from './UseOfferScreen';
 import { useNavigate } from 'react-router-dom';
@@ -88,7 +88,7 @@ export function OfferScreen(): React.JSX.Element {
                     {offer.bedrooms} Bedrooms
                   </li>
                   <li className="offer__feature offer__feature--adults">
-                    Max {offer.maxAdults} adults
+                    Max {offer.maxAdults} adult{offer.maxAdults !== 1 && 's'}
                   </li>
                 </ul>
                 <div className="offer__price">

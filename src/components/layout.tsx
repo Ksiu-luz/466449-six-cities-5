@@ -24,7 +24,7 @@ export function Layout({
 
   const logOut = () => {
     dispatch(logoutAction());
-    navigate(AppRoutes.MainScreen);
+    navigate(AppRoutes.Main);
   };
 
   return (
@@ -33,7 +33,7 @@ export function Layout({
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <Link className="header__logo-link header__logo-link--active" to={AppRoutes.MainScreen}>
+              <Link className="header__logo-link header__logo-link--active" to={AppRoutes.Main}>
                 <img
                   className="header__logo"
                   src="img/logo.svg"
@@ -62,7 +62,7 @@ export function Layout({
                     <li className="header__nav-item">
                       <Link
                         className="header__nav-link"
-                        to={AppRoutes.MainScreen}
+                        to={AppRoutes.Main}
                         onClick={logOut}
                       >
                         <span className="header__signout">Sign out</span>
@@ -88,7 +88,7 @@ export function Layout({
       {children}
       {showFooter && (
         <footer className="footer container">
-          <Link className="footer__logo-link" to={AppRoutes.MainScreen}>
+          <Link className="footer__logo-link" to={AppRoutes.Main}>
             <img
               className="footer__logo"
               src="img/logo.svg"

@@ -7,8 +7,8 @@ import { OfferScreen } from '../pages/OfferScreen/OfferScreen.tsx';
 import { AppRoutes } from '../props/Constants.ts';
 import { Provider } from 'react-redux';
 import { store } from '../store/Index.ts';
-import PrivateRoute from './routes/PrivateRoute.tsx';
-import { NotFoundScreen } from '../pages/NotFound/NotFoundScreen.tsx';
+import PrivateRoute from './PrivateRoute/PrivateRoute.tsx';
+import { NotFoundScreen } from '../pages/NotFoundScreen/NotFoundScreen.tsx';
 
 export function App(): React.JSX.Element {
   return (
@@ -17,7 +17,7 @@ export function App(): React.JSX.Element {
         <Routes>
           <Route
             index
-            path={AppRoutes.MainScreen}
+            path={AppRoutes.Main}
             element={<MainScreen/>}
           />
           <Route

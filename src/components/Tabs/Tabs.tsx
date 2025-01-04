@@ -24,7 +24,7 @@ export default function Tabs({ selectedCity, onClick }: TabsProps) {
           {cities.map((city) => (
             <li key={city} className="locations__item">
               <Link
-                to={AppRoutes.MainScreen}
+                to={AppRoutes.Main}
                 className={cn('locations__item-link', 'tabs__item', {
                   ['tabs__item--active']: city === selectedCity,
                 })}
