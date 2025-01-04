@@ -1,7 +1,7 @@
-﻿import { PlaceCard } from './PlaceCard.tsx';
-import { Nullable } from 'vitest';
+﻿import { Nullable } from 'vitest';
 import { Offer } from '../../props/Offers.ts';
 import { CardTypes } from './PlaceCard.tsx';
+import { MemoPlaceCard } from './PlaceCard.tsx';
 
 type PlaceListProps = {
   offers: Offer[];
@@ -14,7 +14,7 @@ export function PlaceList({offers, cardType, onItemHover}: PlaceListProps): JSX.
   return (
     <>
       {offers.map((offer) => (
-        <PlaceCard
+        <MemoPlaceCard
           offer={offer}
           cardType={cardType}
           onHover={(id) => onItemHover?.call(null, id)}

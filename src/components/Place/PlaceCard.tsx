@@ -3,6 +3,7 @@ import { Offer } from '../../props/Offers';
 import cn from 'classnames';
 import { Nullable } from 'vitest';
 import { CardBookmarkButton } from '../BookmarkButton';
+import { memo } from 'react';
 
 export type CardTypes = 'cities' | 'favorites' | 'near-places';
 
@@ -60,3 +61,5 @@ export function PlaceCard({
     </article>
   );
 }
+
+export const MemoPlaceCard = memo(PlaceCard);
