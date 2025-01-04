@@ -1,4 +1,4 @@
-import { Layout } from '../../components/Layout';
+import { Layout } from '../../components/Layout/Layout';
 import { ReviewForm } from '../../components/Review/ReviewForm';
 import ReviewList from '../../components/Review/ReviewList';
 import { AuthorizationStatus, DEFAULT_MAP_ZOOM, AppRoutes } from '../../props/Constants';
@@ -17,15 +17,15 @@ import { Spinner } from '../../components/Spinner/Spinner';
 
 export function OfferScreen(): React.JSX.Element {
   const authStatus = useAppSelector((state) => state.auth.authorizationStatus);
-  const { offer, reviews, nearbyOffers, error, isLoading } = useOfferScreen();
+  const { offer, reviews, nearbyOffers, isError, isLoading } = useOfferScreen();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (error !== undefined || (!isLoading && offer === undefined)) {
+    if (isError) {
       navigate(AppRoutes.NotFound);
     }
-  }, [error, navigate, offer, isLoading]);
+  }, [isError, navigate]);
 
   useEffect(
     () => () => {

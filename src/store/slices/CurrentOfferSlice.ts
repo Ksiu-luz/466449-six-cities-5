@@ -1,41 +1,42 @@
-﻿import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+﻿import { createSlice } from '@reduxjs/toolkit';
 import { Offer } from '../../props/Offers';
 import { Review } from '../../props/Review';
 import { changeFavoriteStatus } from './OffersSlice';
+import {
+  fetchFullOffer,
+  fetchNearbyOffers,
+  fetchOffer,
+  fetchReviews,
+  sendReview,
+} from '../ApiActions';
 
-type CurrentOfferState = {
+export type CurrentOfferState = {
   offer: Offer | undefined;
   reviews: Review[];
   nearbyOffers: Offer[];
+  isError: boolean;
+  isLoading: boolean;
 };
 
 const initialState: CurrentOfferState = {
   offer: undefined,
   reviews: [],
   nearbyOffers: [],
+  isError: false,
+  isLoading: false,
 };
 
-const currentOfferSlice = createSlice({
+export const currentOfferSlice = createSlice({
   name: 'currentOffer',
   initialState,
   reducers: {
-    fillReviews(state, action: PayloadAction<Review[]>) {
-      state.reviews = action.payload;
-    },
-    addReview(state, action: PayloadAction<Review>) {
-      state.reviews.push(action.payload);
-    },
-    fillNearbyOffers(state, action: PayloadAction<Offer[]>) {
-      state.nearbyOffers = action.payload;
-    },
-    updateOffer(state, action: PayloadAction<Offer | undefined>) {
-      state.offer = action.payload;
-    },
     clearOffer(state) {
       state.offer = undefined;
       state.nearbyOffers = [];
       state.reviews = [];
-    }
+      state.isError = false;
+      state.isLoading = false;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -44,9 +45,34 @@ const currentOfferSlice = createSlice({
         if (state.offer && offerId === state.offer.id) {
           state.offer.isFavorite = isFavorite;
         }
+      })
+      .addCase(fetchOffer.fulfilled, (state, action) => {
+        state.isError = false;
+        state.offer = action.payload;
+      })
+      .addCase(fetchOffer.rejected, (state) => {
+        state.isError = true;
+      })
+      .addCase(fetchReviews.fulfilled, (state, action) => {
+        state.reviews = action.payload;
+      })
+      .addCase(fetchNearbyOffers.fulfilled, (state, action) => {
+        state.nearbyOffers = action.payload;
+      })
+      .addCase(fetchFullOffer.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchFullOffer.fulfilled, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(fetchFullOffer.rejected, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(sendReview.fulfilled, (state, action) => {
+        state.reviews.push(action.payload);
       });
   },
 });
 
-export const { fillNearbyOffers, fillReviews, updateOffer, clearOffer, addReview } = currentOfferSlice.actions;
+export const { clearOffer } = currentOfferSlice.actions;
 export default currentOfferSlice.reducer;

@@ -1,26 +1,26 @@
-﻿import { useState, createRef, FormEvent } from 'react';
+﻿import { useState, FormEvent } from 'react';
 import { sendReview } from '../../store/ApiActions';
 import { useAppDispatch, useAppSelector } from '../../store/Hooks';
+import { addErrorMessage } from '../../store/slices/ErrorsSlice';
 
 export function ReviewForm() {
   const [formData, setFormData] = useState({
     rating: 0,
-    review: '',
+    comment: '',
     disabled: false,
   });
 
   const offerId = useAppSelector((state) => state.currentOffer.offer?.id);
   const dispatch = useAppDispatch();
-  const formRef = createRef<HTMLFormElement>();
 
   const handleRatingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value} = e.target;
     setFormData({...formData, rating: Number(value)});
   };
 
-  const handleReviewChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleCommentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = e.target;
-    setFormData({ ...formData, review: value });
+    setFormData({ ...formData, comment: value });
   };
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -32,16 +32,17 @@ export function ReviewForm() {
     dispatch(
       sendReview({
         offerId,
-        formData: { comment: formData.review, rating: formData.rating },
+        formData: { comment: formData.comment, rating: formData.rating },
       })
     )
       .unwrap()
       .then(() => {
-        setFormData({ ...formData, rating: 0, review: '' });
-        formRef.current?.reset();
+        setFormData({ rating: 0, comment: '', disabled: false });
       })
-      .catch(() => {})
-      .finally(() => setFormData({ ...formData, disabled: false }));
+      .catch(() => {
+        dispatch(addErrorMessage('Error orrured while sending review'));
+        setFormData({ ...formData, disabled: false });
+      });
   };
 
 
@@ -49,7 +50,6 @@ export function ReviewForm() {
     <form
       className="reviews__form form"
       onSubmit={onSubmit}
-      ref={formRef}
     >
       <label className="reviews__label form__label" htmlFor="review">
         Your review
@@ -58,9 +58,10 @@ export function ReviewForm() {
         <input
           className="form__rating-input visually-hidden"
           name="rating"
-          defaultValue={5}
+          value={5}
           id="5-stars"
           type="radio"
+          checked={formData.rating === 5}
           onChange={handleRatingChange}
         />
         <label
@@ -75,10 +76,11 @@ export function ReviewForm() {
         <input
           className="form__rating-input visually-hidden"
           name="rating"
-          defaultValue={4}
+          value={4}
           id="4-stars"
           type="radio"
           onChange={handleRatingChange}
+          checked={formData.rating === 4}
         />
         <label
           htmlFor="4-stars"
@@ -92,10 +94,11 @@ export function ReviewForm() {
         <input
           className="form__rating-input visually-hidden"
           name="rating"
-          defaultValue={3}
+          value={3}
           id="3-stars"
           type="radio"
           onChange={handleRatingChange}
+          checked={formData.rating === 3}
         />
         <label
           htmlFor="3-stars"
@@ -109,10 +112,11 @@ export function ReviewForm() {
         <input
           className="form__rating-input visually-hidden"
           name="rating"
-          defaultValue={2}
+          value={2}
           id="2-stars"
           type="radio"
           onChange={handleRatingChange}
+          checked={formData.rating === 2}
         />
         <label
           htmlFor="2-stars"
@@ -126,10 +130,11 @@ export function ReviewForm() {
         <input
           className="form__rating-input visually-hidden"
           name="rating"
-          defaultValue={1}
+          value={1}
           id="1-star"
           type="radio"
           onChange={handleRatingChange}
+          checked={formData.rating === 1}
         />
         <label
           htmlFor="1-star"
@@ -146,8 +151,9 @@ export function ReviewForm() {
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
-        value={formData.review}
-        onChange={handleReviewChange}
+        value={formData.comment}
+        onChange={handleCommentChange}
+        disabled={formData.disabled}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
@@ -160,8 +166,8 @@ export function ReviewForm() {
           type="submit"
           disabled={
             formData.disabled ||
-            formData.review.length > 300 ||
-            formData.review.length < 50 ||
+            formData.comment.length > 300 ||
+            formData.comment.length < 50 ||
             formData.rating === 0
           }
         >

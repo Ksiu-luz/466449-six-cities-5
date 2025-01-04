@@ -1,7 +1,7 @@
-import { AppRoutes, AuthorizationStatus } from '../props/Constants';
+import { AppRoutes, AuthorizationStatus } from '../../props/Constants';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAppSelector, useAppDispatch } from '../store/Hooks';
-import { logoutAction } from '../store/ApiActions';
+import { useAppSelector, useAppDispatch } from '../../store/Hooks';
+import { logoutAction } from '../../store/ApiActions';
 
 interface LayoutProps {
   children: React.JSX.Element;

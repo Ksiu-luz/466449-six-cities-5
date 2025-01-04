@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout } from '../../components/Layout.tsx';
+import { Layout } from '../../components/Layout/Layout.tsx';
 import { Link } from 'react-router-dom';
 import { AppRoutes } from '../../props/Constants.ts';
 import styles from './NotFound.module.css';
