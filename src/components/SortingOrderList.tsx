@@ -1,4 +1,4 @@
-﻿import { useState, memo } from 'react';
+﻿import { memo, useState } from 'react';
 import cn from 'classnames';
 import { SortingOrder, sortingOrders } from '../props/SortingOrder';
 import { useAppDispatch, useAppSelector } from '../store/Hooks';
