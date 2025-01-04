@@ -10,7 +10,7 @@ export function LoginScreen(): React.JSX.Element {
 
   useEffect(() => {
     if (authStatus === AuthorizationStatus.Auth) {
-      navigate(AppRoutes.MainScreen);
+      navigate(AppRoutes.Main);
     }
   }, [authStatus, navigate]);
 
@@ -20,7 +20,7 @@ export function LoginScreen(): React.JSX.Element {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <Link className="header__logo-link" to={AppRoutes.MainScreen}>
+              <Link className="header__logo-link" to={AppRoutes.Main}>
                 <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41"/>
               </Link>
             </div>

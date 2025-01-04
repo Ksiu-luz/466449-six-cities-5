@@ -21,7 +21,7 @@ export function LoginForm() {
   const login = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(loginAction(formData));
-    navigate(AppRoutes.MainScreen);
+    navigate(AppRoutes.Main);
   };
 
   return (
