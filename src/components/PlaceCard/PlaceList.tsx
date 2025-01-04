@@ -15,6 +15,7 @@ export function PlaceList({offers, cardType, onItemHover}: PlaceListProps): JSX.
     <>
       {offers.map((offer) => (
         <MemoPlaceCard
+          key={offer.id}
           offer={offer}
           cardType={cardType}
           onHover={(id) => onItemHover?.call(null, id)}
