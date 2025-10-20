@@ -3,17 +3,17 @@ type ParsedCommand = Record<string, string[]>
 export class CommandParser {
   static parse(cliArguments: string[]): ParsedCommand {
     const parsedCommand: ParsedCommand = {};
-    let currentCommand = '';
+    let command = '';
 
-    for (const argument of cliArguments) {
-      if (argument.startsWith('--')) {
-        parsedCommand[argument] = [];
-        currentCommand = argument;
-      } else if (currentCommand && argument) {
-        parsedCommand[currentCommand].push(argument);
+    return cliArguments.reduce((acc, item) => {
+      if (item.startsWith('--')) {
+        acc[item] = [];
+        command = item;
+      } else if (command && item) {
+        acc[command].push(item);
       }
-    }
 
-    return parsedCommand;
+      return acc;
+    }, parsedCommand);
   }
 }
