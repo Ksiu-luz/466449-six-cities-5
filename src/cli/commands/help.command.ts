@@ -1,20 +1,17 @@
-import { Command } from './command.interface.js';
 import chalk from 'chalk';
+import {Command} from './command.interface.js';
 
 export class HelpCommand implements Command {
-  public getName(): string {
-    return '--help';
-  }
+  public readonly name = '--help';
 
-  public async execute(..._parameters: string[]): Promise<void> {
-    console.info(chalk.green(`
+  public async execute(): Promise<void> {
+    console.log(`
         Программа для подготовки данных для REST API сервера.
-        Пример:
-            cli.js --<command> [--arguments]
-        Команды:
-            --version:                   # выводит номер версии
-            --help:                      # печатает вспомогательную инструкцию
-            --import <path>:             # импортирует данные из TSV
-    `));
+        Пример: cli.js --<command> [--arguments]\n`,
+    chalk.white('\tКоманды:\n'),
+    chalk.green('\t--help:                      '), '# выводит этот текст\n',
+    chalk.yellow('\t--version:                   '), '# выводит номер версии\n',
+    chalk.red('\t--import <path>:             '), '# импортирует данные из файла с расширением TSV\n',
+    chalk.blue('\t--generate <n> <path> <url>  '), '# генерирует произвольное количество тестовых данных');
   }
 }

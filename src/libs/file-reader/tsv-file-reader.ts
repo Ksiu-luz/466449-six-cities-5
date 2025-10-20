@@ -1,57 +1,35 @@
-import { FileReader } from './file-reader.interface.js';
-import { readFileSync } from 'node:fs';
-import { City } from '../../types/city.enum.js';
-import { PropertyType } from '../../types/property-type.enum.js';
-import { Amenity } from '../../types/amenity.enum.js';
-import { RentalOffer } from '../../types/index.js';
+import EventEmitter from 'node:events';
+import {createReadStream} from 'node:fs';
+import {FileReader} from './file-reader.interface.js';
 
-export class TSVFileReader implements FileReader {
-  private rawData = '';
+const CHUNK_SIZE = 16384;
 
-  constructor(
-    private readonly filename: string
-  ) {}
-
-  public read(): void {
-    this.rawData = readFileSync(this.filename, { encoding: 'utf-8' });
+export default class TsvFileReader extends EventEmitter implements FileReader {
+  constructor(public filename: string) {
+    super();
   }
 
-  public toArray(): RentalOffer[] {
-    if (!this.rawData) {
-      throw new Error('File was not read');
+  public async read(): Promise<void> {
+    const stream = createReadStream(this.filename, {
+      highWaterMark: CHUNK_SIZE,
+      encoding: 'utf-8',
+    });
+    let remainingData = '';
+    let nextLinePosition = -1;
+    let importedRowCount = 0;
+
+    for await (const chunk of stream) {
+      remainingData += chunk.toString();
+
+      while ((nextLinePosition = remainingData.indexOf('\n')) >= 0) {
+        const completeRow = remainingData.slice(0, nextLinePosition + 1);
+        remainingData = remainingData.slice(++nextLinePosition);
+        importedRowCount++;
+
+        this.emit('line', completeRow);
+      }
     }
 
-    return this.rawData
-      .split('\n')
-      .filter((row) => row.trim().length > 0)
-      .map((line) => line.split('\t'))
-      .map(([title, description, publicationDate, city, previewImage, images, isPremium, isFavorite, rating, propertyType, rooms, guests, price, amenities, authorName, authorEmail, authorAvatar, commentsCount, latitude, longitude]) => ({
-        title,
-        description,
-        publicationDate: new Date(publicationDate),
-        city: City[city as keyof typeof City],
-        previewImage,
-        images: images.split(';'),
-        isPremium: isPremium === 'true',
-        isFavorite: isFavorite === 'true',
-        rating: parseFloat(rating),
-        propertyType: PropertyType[propertyType as keyof typeof PropertyType],
-        rooms: parseInt(rooms, 10),
-        guests: parseInt(guests, 10),
-        price: parseInt(price, 10),
-        amenities: amenities.split(';').map((amenity) => Amenity[amenity as keyof typeof Amenity]),
-        author: {
-          name: authorName,
-          email: authorEmail,
-          avatar: authorAvatar,
-          password: '',
-          userType: 'pro',
-        },
-        commentsCount: parseInt(commentsCount, 10),
-        coordinates: {
-          latitude: parseFloat(latitude),
-          longitude: parseFloat(longitude),
-        },
-      }));
+    this.emit('end', importedRowCount);
   }
 }
