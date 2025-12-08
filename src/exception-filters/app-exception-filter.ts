@@ -4,7 +4,7 @@ import {NextFunction, Request, Response} from 'express';
 import {HttpError} from '../errors/http-error.js';
 import {ExceptionFilter } from './exception-filter.interface.js';
 import {Component} from '../types/component.enum.js';
-import {Logger} from '../logger/logger.interface.js';
+import {Logger} from '../libs/logger/logger.interface.js';
 import {createErrorObject} from '../helpers/createErrorObject.js';
 
 @injectable()

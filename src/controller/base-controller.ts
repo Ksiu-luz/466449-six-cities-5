@@ -4,7 +4,7 @@ import {StatusCodes} from 'http-status-codes';
 import {Response, Router} from 'express';
 import {Route} from '../types/route.interface.js';
 import {Controller} from './controller.interface.js';
-import {Logger} from '../logger/logger.interface.js';
+import {Logger} from '../libs/logger/logger.interface.js';
 
 @injectable()
 export abstract class BaseController implements Controller {
@@ -21,7 +21,13 @@ export abstract class BaseController implements Controller {
   }
 
   public addRoute(this: BaseController, route: Route) {
-    this._router[route.method](route.path, asyncHandler(route.handler.bind(this)));
+    const routeHandler = asyncHandler(route.handler.bind(this));
+    const middlewares = route.middlewares?.map(
+      (middleware) => asyncHandler(middleware.execute.bind(middleware))
+    );
+    const allHandlers = middlewares ? [...middlewares, routeHandler] : routeHandler;
+
+    this._router[route.method](route.path, allHandlers);
     this.logger.info(`Route registered: ${route.method.toUpperCase()} ${route.path}`);
   }
 

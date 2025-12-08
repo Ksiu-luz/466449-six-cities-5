@@ -3,7 +3,7 @@ import {Response, Request} from 'express';
 import {Config} from 'convict';
 import {StatusCodes} from 'http-status-codes';
 import {BaseController} from '../../../controller/base-controller.js';
-import {Logger} from '../../../logger/logger.interface.js';
+import {Logger} from '../../../libs/logger/logger.interface.js';
 import {Component} from '../../../types/component.enum.js';
 import {HttpMethod} from '../../../types/http-method.enum.js';
 import { RestSchema } from '../../../config/rest.shema.js';

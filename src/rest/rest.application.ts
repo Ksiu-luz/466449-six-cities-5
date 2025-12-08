@@ -1,7 +1,7 @@
 import {inject, injectable} from 'inversify';
 import express, {Express} from 'express';
 import {Config} from '../config/config.interface.js';
-import {Logger} from '../logger/logger.interface.js';
+import {Logger} from '../libs/logger/logger.interface.js';
 import { RestSchema } from '../config/rest.shema.js';
 import { Component } from '../types/component.enum.js';
 import {DatabaseClient} from '../database-client/database-client.interface.js';
@@ -20,6 +20,7 @@ export default class Application {
     @inject(Component.AppExceptionFilter) private readonly exceptionFilter: ExceptionFilter,
     @inject(Component.UserController) private readonly userController: BaseController,
     @inject(Component.OfferController) private readonly offerController: BaseController,
+    @inject(Component.CommentController) private readonly commentController: BaseController,
   ) {
     this.server = express();
   }
@@ -54,6 +55,7 @@ export default class Application {
 
     this.server.use('/users', this.userController.router);
     this.server.use('/offers', this.offerController.router);
+    this.server.use('/comments', this.commentController.router);
 
     this.logger.info('Controller completed');
   }

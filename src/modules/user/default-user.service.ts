@@ -4,7 +4,7 @@ import {UserEntity} from './user.entity.js';
 import CreateUserDto from './dto/create-user.dto.js';
 import {UserService} from './user-service.interface.js';
 import {Component} from '../../types/component.enum.js';
-import {Logger} from '../../logger/logger.interface.js';
+import {Logger} from '../../libs/logger/logger.interface.js';
 import {OfferEntity} from '../offer/offer.entity.js';
 
 @injectable()

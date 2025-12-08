@@ -1,7 +1,7 @@
 import { Container } from 'inversify';
 import { Component } from '../types/component.enum.js';
-import { Logger } from '../logger/logger.interface.js';
-import PinoService from '../logger/pino.logger.js';
+import { Logger } from '../libs/logger/logger.interface.js';
+import PinoService from '../libs/logger/pino.logger.js';
 import { RestSchema } from '../config/rest.shema.js';
 import { DatabaseClient } from '../database-client/database-client.interface.js';
 import MongoClientService from '../database-client/mongo.database-client.js';

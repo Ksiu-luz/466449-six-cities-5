@@ -3,7 +3,7 @@ import {DocumentType, types} from '@typegoose/typegoose';
 import CreateOfferDto from './dto/create-offer.dto.js';
 import {OfferEntity} from './offer.entity.js';
 import {OfferService} from './offer-service.interface.js';
-import {Logger} from '../../logger/logger.interface.js';
+import {Logger} from '../../libs/logger/logger.interface.js';
 import {Component} from '../../types/component.enum.js';
 import UpdateOfferDto from './dto/update-offer.dto.js';
 import {Sort} from '../../types/sort-type.enum.js';
